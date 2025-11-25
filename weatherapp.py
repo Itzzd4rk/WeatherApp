@@ -1,5 +1,6 @@
 import requests
 import tkinter as tk
+import pywinstyles
 import os
 from dotenv import load_dotenv
 
@@ -36,14 +37,16 @@ def get_weather():
 root=tk.Tk()
 root.geometry("400x400")
 root.title("Weather App")
-label=tk.Label(root,text="Enter City Name",font=("JetBrains Mono",16))
-prompt_label=tk.Label(root,text="Enter city name",font=("JetBrains Mono",12))
+root.config(bg="#333333")
+pywinstyles.apply_style(root, style='mica')
+label=tk.Label(root,text="Enter City Name",font=("JetBrains Mono",16),bg="#333333")
+prompt_label=tk.Label(root,text="Enter city name",font=("JetBrains Mono",12),bg="#333333",fg="white")
 prompt_label.pack(pady=10)
-text_area=tk.Text(root,height=2,width=20,font=("JetBrains Mono",14))
+text_area=tk.Text(root,height=2,width=20,font=("JetBrains Mono",14),bg="#333333", fg="white")
 text_area.pack(pady=10)
-button=tk.Button(root,text="Get Weather",command=get_weather)
+button=tk.Button(root,text="Get Weather",command=get_weather, font=("JetBrains Mono",14),bg="#555555",fg="white")
 button.pack(pady=10)
 
-result_label=tk.Label(root,text="",font=("JetBrains Mono",16))
+result_label=tk.Label(root,text="",font=("JetBrains Mono",16),bg="#333333")
 result_label.pack(pady=10)
 root.mainloop()
