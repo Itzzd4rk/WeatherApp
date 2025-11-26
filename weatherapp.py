@@ -1,5 +1,5 @@
 import requests
-import tkinter as tk
+import customtkinter as ctk
 import pywinstyles
 import os
 from dotenv import load_dotenv
@@ -14,8 +14,8 @@ def get_weather():
     city=text_area.get("1.0","end-1c")
     if not city:
         result_text = "Please enter a city name."
-        text_area.delete("1.0", tk.END)
-        text_area.insert(tk.END, result_text)
+        text_area.delete("1.0", ctk.END)
+        text_area.insert(ctk.END, result_text)
         return
     parameters = {'key': api_key, 'q': city, 'units': 'metric'}
     try:
@@ -26,27 +26,30 @@ def get_weather():
             temp_c = data['current']['temp_c']
             condition = data['current']['condition']['text']
             result_text = f"City: {location}\nTemperature: {temp_c}°C\nCondition: {condition}"
-            result_label.config(text=result_text, fg="black")
+            result_label.configure(text=result_text)
             output=f"City: {location}, Temperature: {temp_c}°C, Condition: {condition}"
         else:
             result_text = data.get('error', {}).get('message', 'Error retrieving data.')
+            result_label.configure(text=result_text, text_color="Red")
     except Exception as e:
         result_text = f"An error occurred: {e}"
+        result_label.configure(text=result_text, text_color="Red")
         
 
-root=tk.Tk()
-root.geometry("400x400")
+root=ctk.CTk()
+root.geometry("1050x700")
 root.title("Weather App")
-root.config(bg="#333333")
+ctk.set_appearance_mode("dark")
+root.configure(bg="#333333")
 pywinstyles.apply_style(root, style='mica')
-label=tk.Label(root,text="Enter City Name",font=("JetBrains Mono",16),bg="#333333")
-prompt_label=tk.Label(root,text="Enter city name",font=("JetBrains Mono",12),bg="#333333",fg="white")
+label=ctk.CTkLabel(root,text="Enter City Name",font=("JetBrains Mono",16), text_color="White")
+prompt_label=ctk.CTkLabel(root,text="Enter city name",font=("JetBrains Mono",18), text_color="White")
 prompt_label.pack(pady=10)
-text_area=tk.Text(root,height=2,width=20,font=("JetBrains Mono",14),bg="#333333", fg="white")
+text_area=ctk.CTkTextbox(root,height=2,width=200,font=("JetBrains Mono",14))
 text_area.pack(pady=10)
-button=tk.Button(root,text="Get Weather",command=get_weather, font=("JetBrains Mono",14),bg="#555555",fg="white")
+button=ctk.CTkButton(root,text="Get Weather",command=get_weather, font=("JetBrains Mono",14), fg_color="#0078D7", hover_color="#005A9E")
 button.pack(pady=10)
 
-result_label=tk.Label(root,text="",font=("JetBrains Mono",16),bg="#333333")
+result_label=ctk.CTkLabel(root,text="",font=("JetBrains Mono",16),)
 result_label.pack(pady=10)
 root.mainloop()
